@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[54]:
+# In[ ]:
 
 
 from flask import Flask, request, jsonify
@@ -9,6 +9,7 @@ import requests
 import json
 import xmltodict
 from collections import OrderedDict
+import pandas as pd
 
 df = pd.read_csv('list_50.csv')
 
