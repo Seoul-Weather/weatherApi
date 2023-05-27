@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[28]:
 
 
 from flask import Flask, request, jsonify
@@ -13,7 +13,7 @@ import pandas as pd
 from flask_cors import CORS
 
 df = pd.read_csv('list_50.csv')
-
+df_event= pd.read_csv('aaa .csv')
 app = Flask(__name__)
 
 CORS(app, resources={r'*': {'origins': ['https://seoul-weather-fe.vercel.app/', 'http://localhost:3000']}})
@@ -103,6 +103,25 @@ def get_precpt(gu):
     weather = data['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['FCST24HOURS']['FCST24HOURS']
     
     return json.dumps(weather, ensure_ascii=False, indent="\t")
+
+@app.route('/user/event/<gu>')
+def get_event(gu):
+    dataset = []
+    api = get_api(gu)
+    weather = api['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['PRECPT_TYPE']
+    df_event2 = df_event[df_event['자치구']==gu]
+    if weather == '비':
+        act = df_event2[df_event2['실내'] == '실내']
+    for index, row in act.iterrows():
+        data = {}
+        data['공연/행사명'] = row['공연/행사명']
+        data['분류'] = row['분류']
+        data['날짜/시간'] = row['날짜/시간']
+        data['프로그램소개'] = row['프로그램소개']
+        data['홈페이지주소'] = row['홈페이지?주소']
+        dataset.append(data)
+    return json.dumps(dataset, ensure_ascii=False, indent="\t")
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5001)
