@@ -10,10 +10,13 @@ import json
 import xmltodict
 from collections import OrderedDict
 import pandas as pd
+from flask_cors import CORS
 
 df = pd.read_csv('list_50.csv')
 
 app = Flask(__name__)
+
+CORS(app, resources={r'*': {'origins': ['https://seoul-weather-fe.vercel.app/', 'http://localhost:3000']}})
 
 @app.route('/user/<gu>')
 def get_echo_call(gu):
