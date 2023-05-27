@@ -18,8 +18,7 @@ app = Flask(__name__)
 
 CORS(app, resources={r'*': {'origins': ['https://seoul-weather-fe.vercel.app/', 'http://localhost:3000']}})
 
-@app.route('/user/<gu>')
-def get_echo_call(gu):
+def get_api(gu):
     if gu == '강동구':
         gu = '송파구'
     elif gu == '강서구' or gu == '양천구':
@@ -33,12 +32,20 @@ def get_echo_call(gu):
     elif gu =='서대문구':
         gu = '종로구'
     
-    
+    #공공데이터 api 요청
     name = df[df['구'] == gu]['장소명'].values[0]
     url = 'http://openapi.seoul.go.kr:8088/6351784378646a663631754e72636a/xml/citydata/1/5/' + name
     response = requests.get(url)
     jsonR = json.dumps(xmltodict.parse(response.text), indent = 4)
     data = json.loads(jsonR)
+    
+    return data
+
+@app.route('/user/<gu>')
+def get_main(gu):
+    data = get_api(gu)
+    
+    #데이터 가공
     gu = data['SeoulRtd.citydata']['CITYDATA']['COVID_19_STTS']['COVID_19_STTS']["GU_NM"]
     temp = data['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['TEMP']
     sensible_tmp = data['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['SENSIBLE_TEMP']
@@ -59,6 +66,17 @@ def get_echo_call(gu):
     #자외선
     uv = data['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['UV_INDEX']
     humiditiy = data['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['HUMIDITY']
+    
+    item = []
+    if int(pm10) > 81 or int(pm25) > 35:
+        item.append('mask')
+    if rain_pre != '-':
+        item.append('unbrella')
+    if sky_stts == '맑음':
+        item.append('sunglass')
+    if uv == '높음':
+        item.append('suncream')
+    
     main_data = OrderedDict()
     main_data["gu"] = gu
     main_data["temp"] = temp
@@ -73,11 +91,18 @@ def get_echo_call(gu):
     main_data['sunrise'] = sunrise
     main_data['uv'] = uv
     main_data['humiditiy'] = humiditiy 
+    main_data['item'] = item
     
     return json.dumps(main_data, ensure_ascii=False, indent="\t")
     
     
-
+@app.route('/user/precpt/<gu>')
+def get_precpt(gu):
+    data = get_api(gu)
+    
+    weather = data['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['FCST24HOURS']['FCST24HOURS']
+    
+    return json.dumps(weather, ensure_ascii=False, indent="\t")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5001)
