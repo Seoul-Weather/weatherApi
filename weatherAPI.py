@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[28]:
+# In[ ]:
 
 
 from flask import Flask, request, jsonify
@@ -78,6 +78,7 @@ def get_main(gu):
         item.append('suncream')
     
     main_data = OrderedDict()
+    main_data['sensible_tmp'] = sensible_tmp
     main_data["gu"] = gu
     main_data["temp"] = temp
     main_data["sky_stts"] = sky_stts
