@@ -115,7 +115,8 @@ def get_event(gu):
     if weather == '비':
         act = df_event2[df_event2['실내'] == '실내']
     for index, row in act.iterrows():
-        data = {}
+#         data = {}
+        data = OrderedDict()
         data['event'] = row['공연/행사명']
         data['type'] = row['분류']
         data['time'] = row['날짜/시간']
