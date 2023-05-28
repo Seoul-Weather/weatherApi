@@ -71,7 +71,7 @@ def get_main(gu):
     if int(pm10) > 81 or int(pm25) > 35:
         item.append('mask')
     if rain_pre != '-':
-        item.append('unbrella')
+        item.append('umbrella')
     if sky_stts == '맑음':
         item.append('sunglass')
     if uv == '높음':
@@ -107,6 +107,7 @@ def get_precpt(gu):
 
 @app.route('/user/event/<gu>')
 def get_event(gu):
+    json_data = {}
     dataset = []
     api = get_api(gu)
     weather = api['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['PRECPT_TYPE']
@@ -121,7 +122,9 @@ def get_event(gu):
         data['프로그램소개'] = row['프로그램소개']
         data['홈페이지주소'] = row['홈페이지?주소']
         dataset.append(data)
-    return json.dumps(dataset, ensure_ascii=False, indent="\t")
+        
+    json_data['data'] = dataset
+    return json.dumps(json_data, ensure_ascii=False, indent="\t")
 
 
 if __name__ == '__main__':
