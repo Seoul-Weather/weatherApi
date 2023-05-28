@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[3]:
 
 
 from flask import Flask, request, jsonify
@@ -107,7 +107,7 @@ def get_precpt(gu):
 
 @app.route('/user/event/<gu>')
 def get_event(gu):
-    json_data = {}
+    json_data = OrderedDict()
     dataset = []
     api = get_api(gu)
     weather = api['SeoulRtd.citydata']['CITYDATA']['WEATHER_STTS']['WEATHER_STTS']['PRECPT_TYPE']
