@@ -120,7 +120,7 @@ def get_event(gu):
         data['event'] = row['공연/행사명']
         data['type'] = row['분류']
         data['time'] = row['날짜/시간']
-        data['intro'] = row['프로그램소개']
+#         data['intro'] = row['프로그램소개']
         data['page'] = row['홈페이지?주소']
         dataset.append(data)
         
