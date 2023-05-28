@@ -116,11 +116,11 @@ def get_event(gu):
         act = df_event2[df_event2['실내'] == '실내']
     for index, row in act.iterrows():
         data = {}
-        data['공연/행사명'] = row['공연/행사명']
-        data['분류'] = row['분류']
-        data['날짜/시간'] = row['날짜/시간']
-        data['프로그램소개'] = row['프로그램소개']
-        data['홈페이지주소'] = row['홈페이지?주소']
+        data['event'] = row['공연/행사명']
+        data['type'] = row['분류']
+        data['time'] = row['날짜/시간']
+        data['intro'] = row['프로그램소개']
+        data['page'] = row['홈페이지?주소']
         dataset.append(data)
         
 #     json_data['data'] = dataset
