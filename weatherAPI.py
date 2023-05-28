@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[6]:
 
 
 from flask import Flask, request, jsonify
@@ -121,7 +121,7 @@ def get_event(gu):
         data['type'] = row['분류']
         data['time'] = row['날짜/시간']
 #         data['intro'] = row['프로그램소개']
-        data['page'] = row['홈페이지?주소']
+#         data['page'] = row['홈페이지?주소']
         dataset.append(data)
         
 #     json_data['data'] = dataset
@@ -130,6 +130,12 @@ def get_event(gu):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5001)
+
+
+# In[7]:
+
+
+
 
 
 # In[ ]:
