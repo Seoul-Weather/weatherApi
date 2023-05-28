@@ -125,7 +125,7 @@ def get_event(gu):
         dataset.append(data)
         
 #     json_data['data'] = dataset
-    return json.dumps(dataset, ensure_ascii=False, indent="\t")
+    return jsonify(dataset)
 
 
 if __name__ == '__main__':
