@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[6]:
+# In[4]:
 
 
 from flask import Flask, request, jsonify
@@ -16,7 +16,7 @@ df = pd.read_csv('list_50.csv')
 df_event= pd.read_csv('aaa .csv')
 app = Flask(__name__)
 
-CORS(app, resources={r'*': {'origins': ['https://seoul-weather-fe.vercel.app/', 'http://localhost:3000']}})
+CORS(app, resources={r'*': {'origins': ['https://seoul-weather-fe.vercel.app/', 'http://localhost:3000', 'https://seoul-weather-fe-brown-storming.vercel.app/','https://seoul-weather-fe-git-main-brown-storming.vercel.app/']}})
 
 def get_api(gu):
     if gu == '강동구':
@@ -114,14 +114,16 @@ def get_event(gu):
     df_event2 = df_event[df_event['자치구']==gu]
     if weather == '비':
         act = df_event2[df_event2['실내'] == '실내']
+    else :
+        act = df_event2
     for index, row in act.iterrows():
 #         data = {}
         data = OrderedDict()
         data['event'] = row['공연/행사명']
         data['type'] = row['분류']
         data['time'] = row['날짜/시간']
-#         data['intro'] = row['프로그램소개']
-#         data['page'] = row['홈페이지?주소']
+        data['intro'] = row['프로그램소개']
+        data['page'] = row['홈페이지?주소']
         dataset.append(data)
         
 #     json_data['data'] = dataset
@@ -130,12 +132,6 @@ def get_event(gu):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5001)
-
-
-# In[7]:
-
-
-
 
 
 # In[ ]:
