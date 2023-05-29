@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[ ]:
 
 
 from flask import Flask, request, jsonify
@@ -16,7 +16,7 @@ df = pd.read_csv('list_50.csv')
 df_event= pd.read_csv('aaa .csv')
 app = Flask(__name__)
 
-CORS(app, resources={r'*': {'origins': ['https://seoul-weather-fe.vercel.app/', 'http://localhost:3000', 'https://seoul-weather-fe-brown-storming.vercel.app/','https://seoul-weather-fe-git-main-brown-storming.vercel.app/']}})
+CORS(app, resources={r'/*': {'origins': ['https://seoul-weather-fe.vercel.app', 'http://localhost:3000', 'https://seoul-weather-fe-brown-storming.vercel.app','https://seoul-weather-fe-git-main-brown-storming.vercel.app']}})
 
 def get_api(gu):
     if gu == '강동구':
