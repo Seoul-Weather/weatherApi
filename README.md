@@ -1,3 +1,3 @@
 # weatherApi
 
-서울시 공공데이터 openApi를 이용하여 앱에 도움이 되도록 전처리한 파일입니다.
+서울시 공공데이터 openApi를 이용하여 데이터를 전처리하고 Flask를 이용한 BackEnd 레포입니다.
